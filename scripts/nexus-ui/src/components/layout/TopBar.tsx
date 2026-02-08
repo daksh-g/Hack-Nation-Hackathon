@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import { Command } from 'lucide-react'
 import { StatsStrip } from '../shared/StatsStrip'
 import { getGraph, getAlerts } from '../../lib/api'
 
@@ -8,6 +9,10 @@ const viewTitles: Record<string, string> = {
   '/alerts': 'Alerts',
   '/ask': 'Ask NEXUS',
   '/decisions': 'Decision Explorer',
+  '/briefing': 'Morning Briefing',
+  '/immune': 'Immune Scan',
+  '/people': 'People & Workforce',
+  '/tasks': 'Task Graph',
 }
 
 export function TopBar() {
@@ -30,9 +35,17 @@ export function TopBar() {
   }, [])
 
   return (
-    <header className="h-12 bg-sidebar border-b border-white/5 flex items-center px-4 gap-4 shrink-0">
+    <header className="h-12 bg-sidebar border-b border-white/10 flex items-center px-4 gap-4 shrink-0">
       {/* Left: View title */}
       <h1 className="text-sm font-semibold text-text-primary whitespace-nowrap">{title}</h1>
+
+      {/* Cmd+K hint */}
+      <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white/5 border border-white/10 cursor-pointer hover:bg-white/10 transition-colors"
+        onClick={() => window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true }))}
+      >
+        <Command size={11} className="text-text-tertiary" />
+        <span className="text-[11px] text-text-tertiary font-mono">K</span>
+      </div>
 
       {/* Spacer */}
       <div className="flex-1" />

@@ -15,7 +15,7 @@ BACKEND_PID=$!
 
 # 2. Frontend
 echo "→ Starting Vite dev server on :5173..."
-cd "$DIR/nexus-ui"
+cd "$DIR/scripts/nexus-ui"
 npx vite --port 5173 --host &
 FRONTEND_PID=$!
 

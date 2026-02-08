@@ -1,0 +1,74 @@
+{
+  "sarah-chen": {
+    "person_id": "sarah-chen",
+    "person_name": "Sarah Chen",
+    "role": "Chief Revenue Officer",
+    "generated_at": "2025-02-07T08:30:00Z",
+    "cognitive_load": 78,
+    "sections": {
+      "attention": [
+        { "type": "critical", "text": "Pricing contradiction: Your $20/seat directive conflicts with Nova-Sales' $15/seat quotes to APAC pipeline. Estimated $30K ARR impact across 500 seats.", "action": "Resolve pricing", "route": "/alerts" },
+        { "type": "warning", "text": "EMEA billing migration decision stalled — 3 teams blocked pending your review of Catherine Moore's architecture proposal.", "action": "Review decision", "route": "/decisions" },
+        { "type": "info", "text": "Atlas-Code shipped async payment retry (v2.3.1). No contradictions detected with your billing requirements.", "action": "View on graph", "route": "/pulse" }
+      ],
+      "changes": [
+        "Nova-Sales quoted $15/seat to 3 APAC prospects (contradicts your $20/seat policy)",
+        "Catherine Moore proposed new billing architecture (pending your sign-off)",
+        "David Kim flagged EMEA regulatory concern on payment processing timelines",
+        "Atlas-Code completed async retry mechanism — now handles 99.7% of transient failures",
+        "2 new commitments created by your direct reports"
+      ],
+      "decisions": [
+        { "id": "decision-pricing", "title": "Enterprise pricing standardization across regions", "status": "active", "urgency": "high", "stakeholders": 4 },
+        { "id": "decision-billing", "title": "EMEA billing migration architecture", "status": "active", "urgency": "medium", "stakeholders": 6 },
+        { "id": "decision-apac-expansion", "title": "APAC market expansion timeline", "status": "active", "urgency": "low", "stakeholders": 3 }
+      ],
+      "people_needing_you": [
+        { "id": "catherine-moore", "name": "Catherine Moore", "reason": "Awaiting billing architecture approval", "urgency": "high" },
+        { "id": "david-kim", "name": "David Kim", "reason": "EMEA regulatory timeline needs your input", "urgency": "medium" },
+        { "id": "nova-sales", "name": "Nova-Sales (AI)", "reason": "Pricing policy clarification needed", "urgency": "high" }
+      ],
+      "predictions": [
+        "Catherine Moore's cognitive load will hit critical (90%+) by Thursday if billing decision remains unresolved",
+        "APAC pricing inconsistency will surface in customer-facing materials within 48 hours",
+        "The EMEA billing migration has a 72% probability of missing its March deadline without resource reallocation"
+      ]
+    }
+  },
+  "catherine-moore": {
+    "person_id": "catherine-moore",
+    "person_name": "Catherine Moore",
+    "role": "VP Engineering",
+    "generated_at": "2025-02-07T08:30:00Z",
+    "cognitive_load": 91,
+    "sections": {
+      "attention": [
+        { "type": "critical", "text": "Your cognitive load is at 91% — 3 active workstreams, 2 blocking decisions, 8 pending commitments. Consider delegating the APAC integration review.", "action": "View load", "route": "/people" },
+        { "type": "warning", "text": "Atlas-Code is operating without human review on 2 production deployments. Trust level should be 'supervised' per policy.", "action": "Review agent", "route": "/pulse" },
+        { "type": "info", "text": "Solutions Engineering team health dropped to yellow — 2 members reassigned, backfill pending.", "action": "View team", "route": "/people" }
+      ],
+      "changes": [
+        "Atlas-Code shipped async payment retry (your approved scope)",
+        "Sarah Chen escalated pricing standardization — needs engineering cost estimate",
+        "EMEA Billing team lost 1 senior engineer (resignation effective Feb 14)",
+        "3 new bug reports on payment gateway integration (P2 severity)",
+        "Nova-Ops flagged infrastructure cost anomaly in APAC region (+23% MoM)"
+      ],
+      "decisions": [
+        { "id": "decision-billing", "title": "EMEA billing migration architecture", "status": "active", "urgency": "high", "stakeholders": 6 },
+        { "id": "decision-atlas-trust", "title": "Atlas-Code trust level escalation", "status": "active", "urgency": "medium", "stakeholders": 3 },
+        { "id": "decision-hiring", "title": "Engineering backfill priorities Q1", "status": "active", "urgency": "medium", "stakeholders": 4 }
+      ],
+      "people_needing_you": [
+        { "id": "sarah-chen", "name": "Sarah Chen", "reason": "Engineering cost estimate for pricing standardization", "urgency": "high" },
+        { "id": "atlas-code", "name": "Atlas-Code (AI)", "reason": "Trust level review needed for autonomous deploys", "urgency": "medium" },
+        { "id": "david-kim", "name": "David Kim", "reason": "EMEA billing team staffing concern", "urgency": "medium" }
+      ],
+      "predictions": [
+        "If EMEA billing team is not backfilled by Feb 21, migration timeline slips 3-4 weeks",
+        "Atlas-Code will request expanded scope for payment retry v3 within the next sprint",
+        "Engineering velocity will drop 15% in the next 2 weeks due to context-switching across 3 active workstreams"
+      ]
+    }
+  }
+}

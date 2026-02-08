@@ -36,7 +36,10 @@ export async function getNodeDetail(id: string): Promise<{ node: GraphNode; edge
 }
 
 export async function getAlerts(): Promise<{ alerts: Alert[] }> {
-  return fetchWithFallback('/api/alerts', '/mock_data/alerts.json');
+  const data = await fetchWithFallback<{ alerts?: Alert[] } | Alert[]>('/api/alerts', '/mock_data/alerts.json');
+  // Mock file is a raw array; API returns { alerts: [...] }
+  if (Array.isArray(data)) return { alerts: data };
+  return { alerts: data.alerts ?? [] };
 }
 
 export async function resolveAlert(id: string): Promise<{ alert: Alert; affected_nodes: string[] }> {
@@ -44,7 +47,26 @@ export async function resolveAlert(id: string): Promise<{ alert: Alert; affected
 }
 
 export async function getDecisions(): Promise<{ cross_division: GraphNode[]; by_division: Record<string, GraphNode[]> }> {
-  return fetchWithFallback('/api/decisions', '/mock_data/graph.json');
+  const data = await fetchWithFallback<{ cross_division?: GraphNode[]; by_division?: Record<string, GraphNode[]>; nodes?: GraphNode[] }>('/api/decisions', '/mock_data/graph.json');
+  // If falling back to graph.json, extract decision/commitment nodes and group by division
+  if (data.nodes && !data.cross_division) {
+    const decisionTypes = new Set(['decision', 'commitment', 'question']);
+    const decisions = data.nodes.filter(n => decisionTypes.has(n.type));
+    const crossDiv: GraphNode[] = [];
+    const byDiv: Record<string, GraphNode[]> = {};
+    for (const d of decisions) {
+      const div = d.division ?? 'Unknown';
+      // Cross-division if blast_radius > 3 or multiple divisions affected
+      if ((d.blast_radius ?? 0) > 3) {
+        crossDiv.push(d);
+      } else {
+        if (!byDiv[div]) byDiv[div] = [];
+        byDiv[div].push(d);
+      }
+    }
+    return { cross_division: crossDiv, by_division: byDiv };
+  }
+  return { cross_division: data.cross_division ?? [], by_division: data.by_division ?? {} };
 }
 
 export async function getDecisionChain(id: string): Promise<DecisionChain> {

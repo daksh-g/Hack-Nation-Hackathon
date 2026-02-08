@@ -9,7 +9,7 @@ echo "Project root: $PROJECT_ROOT"
 # --- Frontend (nexus-ui) ---
 echo ""
 echo ">>> Installing frontend dependencies..."
-cd "$PROJECT_ROOT/nexus-ui"
+cd "$PROJECT_ROOT/scripts/nexus-ui"
 npm install
 npm install tailwindcss @tailwindcss/vite react-router-dom framer-motion react-force-graph-2d lucide-react
 

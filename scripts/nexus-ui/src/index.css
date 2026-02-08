@@ -52,3 +52,29 @@ html, body, #root {
   0%, 100% { opacity: 0.98; }
   50% { opacity: 1; }
 }
+
+@keyframes scan-line {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes glow-border {
+  0%, 100% { box-shadow: 0 0 8px rgba(6, 182, 212, 0.3); }
+  50% { box-shadow: 0 0 20px rgba(6, 182, 212, 0.6); }
+}
+
+@keyframes slide-in-right {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* Projector-safe minimum font sizes */
+.view-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+/* Card depth for projector visibility */
+.card-elevated {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}

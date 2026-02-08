@@ -771,7 +771,7 @@ export function DemoView() {
             <button onClick={() => setShowOnboarding(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.3)', cursor: 'pointer', fontSize: 20, padding: 4 }}>×</button>
           </div>
           <div style={{ display: 'flex', gap: 4, marginBottom: 24 }}>
-            {['Your World', 'Key Decisions', 'Key People', 'Open Tensions', 'Expectations'].map((s, i) => (
+            {['Your World', 'Key Decisions', 'Key People', 'Open Tensions', 'Expectations'].map((_, i) => (
               <div key={i} style={{ flex: 1, height: 3, borderRadius: 2, background: i <= onboardingStep ? '#4ecdc4' : 'rgba(255,255,255,0.06)', transition: 'background 0.3s ease' }} />
             ))}
           </div>

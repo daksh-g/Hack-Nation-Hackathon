@@ -1,13 +1,17 @@
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { Activity, AlertTriangle, MessageSquare, GitBranch, Settings } from 'lucide-react'
+import { Activity, AlertTriangle, MessageSquare, GitBranch, Settings, Zap, Shield, Users, ListChecks } from 'lucide-react'
 import { getAlerts } from '../../lib/api'
 
 const navItems = [
   { path: '/pulse', icon: Activity, label: 'Pulse' },
+  { path: '/briefing', icon: Zap, label: 'Briefing' },
   { path: '/alerts', icon: AlertTriangle, label: 'Alerts' },
+  { path: '/immune', icon: Shield, label: 'Immune Scan' },
   { path: '/ask', icon: MessageSquare, label: 'Ask NEXUS' },
+  { path: '/people', icon: Users, label: 'People' },
   { path: '/decisions', icon: GitBranch, label: 'Decisions' },
+  { path: '/tasks', icon: ListChecks, label: 'Tasks' },
 ]
 
 export function Sidebar() {
@@ -25,9 +29,13 @@ export function Sidebar() {
   }, [])
 
   return (
-    <aside className="w-16 bg-sidebar flex flex-col items-center py-4 border-r border-white/5">
+    <aside className="w-16 bg-sidebar flex flex-col items-center py-4 border-r border-white/10">
       {/* NEXUS Logo */}
-      <div className="w-9 h-9 rounded-lg bg-accent-blue/20 flex items-center justify-center mb-6 cursor-default select-none">
+      <div
+        className="w-9 h-9 rounded-lg bg-accent-blue/20 flex items-center justify-center mb-6 cursor-pointer select-none hover:bg-accent-blue/30 transition-colors"
+        onClick={() => navigate('/demo')}
+        title="NEXUS Demo"
+      >
         <span className="text-accent-blue font-bold text-sm tracking-tight">N</span>
       </div>
 
@@ -43,7 +51,7 @@ export function Sidebar() {
               title={label}
               className={[
                 'relative w-10 h-10 rounded-lg flex items-center justify-center',
-                'transition-all duration-200 ease-out',
+                'transition-all duration-200 ease-out group',
                 active
                   ? 'bg-accent-blue/20 text-accent-blue shadow-[inset_0_0_0_1px_rgba(59,130,246,0.3)]'
                   : 'text-text-tertiary hover:text-text-secondary hover:bg-white/5',
@@ -55,6 +63,10 @@ export function Sidebar() {
                   {alertCount > 9 ? '9+' : alertCount}
                 </span>
               )}
+              {/* Tooltip */}
+              <span className="absolute left-full ml-2 px-2 py-1 bg-panels border border-white/10 rounded text-xs text-text-primary whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-150 z-50">
+                {label}
+              </span>
             </button>
           )
         })}
