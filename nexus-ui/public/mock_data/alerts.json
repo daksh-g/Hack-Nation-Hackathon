@@ -1,0 +1,176 @@
+[
+  {
+    "id": "alert-1",
+    "agent": "contradiction",
+    "severity": "critical",
+    "scope": "NA",
+    "headline": "Conflicting pricing sent to Acme Corp",
+    "detail": "VP of Sales Sarah Chen verbally committed $20/seat to Acme Corp on Feb 3. Nova-Sales autonomously sent an automated proposal at $15/seat 6 hours ago using the outdated Q3 pricing sheet. Acme Corp now has two conflicting quotes. Estimated deal value: $120K ARR (500 seats).",
+    "affected_node_ids": [
+      "person-6",
+      "agent-4",
+      "person-7",
+      "commitment-1",
+      "commitment-2",
+      "decision-1",
+      "question-3",
+      "topic-1"
+    ],
+    "resolution": {
+      "authority": "person-6",
+      "action": "Sarah Chen must contact Acme Corp to confirm $20/seat pricing and retract the automated $15/seat proposal. Nova-Sales pricing database must be updated to reflect February pricing.",
+      "endpoint": "/api/resolve/alert-1"
+    },
+    "estimated_cost": "$30K ARR difference (500 seats x $5/seat/month x 12 months = $30K)",
+    "timestamp": "2026-02-07T09:30:00Z",
+    "resolved": false
+  },
+  {
+    "id": "alert-2",
+    "agent": "contradiction",
+    "severity": "critical",
+    "scope": "cross-division",
+    "headline": "v2.0 launch date conflict: NA says March 15, EMEA says April 1",
+    "detail": "NA Product committed to March 15 launch at the company all-hands. Marketing materials in production, press embargo set. EMEA Engineering is working toward April 1 for localization and EU payment gateway integration. Henrik Johansson flagged this in standup but it hasn't reached NA Product. A unified launch on March 15 is impossible without EMEA readiness.",
+    "affected_node_ids": [
+      "person-5",
+      "person-9",
+      "person-19",
+      "person-12",
+      "commitment-3",
+      "commitment-4",
+      "question-2",
+      "topic-3"
+    ],
+    "resolution": {
+      "authority": "person-19",
+      "action": "CEO Alex Reeves must convene David Kim (NA Product) and Henrik Johansson (EMEA Eng) to decide: (a) phased launch NA March 15 / EMEA April 1, or (b) unified launch April 1. Marketing must be notified immediately.",
+      "endpoint": "/api/resolve/alert-2"
+    },
+    "estimated_cost": "2-week delay risk + marketing rework ($50K+)",
+    "timestamp": "2026-02-07T06:30:00Z",
+    "resolved": false
+  },
+  {
+    "id": "alert-3",
+    "agent": "staleness",
+    "severity": "warning",
+    "scope": "NA",
+    "headline": "Atlas-Code working on superseded REST v3 spec",
+    "detail": "Atlas-Code has been building the billing REST API v3 endpoint for 4 hours. However, the Payments team decided 3 hours ago to switch to GraphQL after Priya Sharma's analysis showed 40% fewer round trips. Atlas-Code's context has not been updated \u2014 it is generating code against a superseded specification. Estimated wasted compute: 4 hours of agent time.",
+    "affected_node_ids": [
+      "agent-1",
+      "person-2",
+      "person-1",
+      "decision-2",
+      "decision-3",
+      "fact-1"
+    ],
+    "resolution": {
+      "authority": "person-2",
+      "action": "Priya Sharma (supervising engineer) must update Atlas-Code's context to reflect the GraphQL decision. Current REST v3 work should be archived, not deleted, in case of rollback.",
+      "endpoint": "/api/resolve/alert-3"
+    },
+    "estimated_cost": "4 hours agent compute + potential rework",
+    "timestamp": "2026-02-07T11:30:00Z",
+    "resolved": false
+  },
+  {
+    "id": "alert-4",
+    "agent": "silo",
+    "severity": "warning",
+    "scope": "cross-division",
+    "headline": "Duplicate retry logic: NA Payments and EMEA Billing",
+    "detail": "NA Payments team (Priya Sharma) and EMEA Billing team (Henrik Johansson, Elena Kowalski) are independently building exponential backoff retry logic for payment failures. Both use the same pattern (jitter + circuit breaker). Zero cross-team communication detected. The Feb 5 payment gateway outage validates the need \u2014 but a shared library would save ~2 weeks of engineering time.",
+    "affected_node_ids": [
+      "person-2",
+      "person-9",
+      "person-10",
+      "fact-2",
+      "fact-3",
+      "fact-6",
+      "question-1",
+      "topic-2",
+      "topic-4"
+    ],
+    "resolution": {
+      "authority": "person-1",
+      "action": "Marcus Rivera (VP Eng) should schedule a cross-team sync between NA Payments and EMEA Billing to evaluate creating a shared retry library. Recommend pausing EMEA implementation until sync.",
+      "endpoint": "/api/resolve/alert-4"
+    },
+    "estimated_cost": "~2 weeks duplicated engineering effort",
+    "timestamp": "2026-02-07T02:30:00Z",
+    "resolved": false
+  },
+  {
+    "id": "alert-5",
+    "agent": "staleness",
+    "severity": "warning",
+    "scope": "HQ",
+    "headline": "Iris-Research market analysis is 45 days old (half-life: 14 days)",
+    "detail": "The Q4 2025 Market Analysis produced by Iris-Research on Dec 24 has a freshness score of 1.8 (critical staleness). This fact has a 14-day half-life but is now 45 days old. Three active decisions depend on this data: mid-market expansion ($2.5M), APAC market entry ($800K), and Q1 hiring plan ($1.8M). Total downstream budget exposure: $5.1M.",
+    "affected_node_ids": [
+      "agent-2",
+      "person-16",
+      "fact-4",
+      "decision-4",
+      "decision-5",
+      "decision-6",
+      "topic-6"
+    ],
+    "resolution": {
+      "authority": "person-16",
+      "action": "Catherine Moore (CSO) must commission Iris-Research to produce an updated market analysis immediately. All three dependent decisions should be flagged for re-evaluation once new data is available.",
+      "endpoint": "/api/resolve/alert-5"
+    },
+    "estimated_cost": "$5.1M in decisions based on stale data",
+    "timestamp": "2026-02-06T14:30:00Z",
+    "resolved": false
+  },
+  {
+    "id": "alert-6",
+    "agent": "overload",
+    "severity": "info",
+    "scope": "HQ",
+    "headline": "Catherine Moore (CSO) cognitive load at 88%",
+    "detail": "Chief Strategy Officer Catherine Moore has a cognitive load of 88% with 8 active commitments and 6 pending decisions. She is the single point of authority for strategy decisions and supervises Iris-Research. Risk of decision fatigue and bottleneck. No delegate identified for strategy decisions.",
+    "affected_node_ids": [
+      "person-16",
+      "agent-2",
+      "decision-4",
+      "decision-5",
+      "topic-6"
+    ],
+    "resolution": {
+      "authority": "person-19",
+      "action": "CEO Alex Reeves should discuss delegation options with Catherine. Consider appointing a VP of Strategy to handle operational strategy decisions and reduce single-point-of-failure risk.",
+      "endpoint": "/api/resolve/alert-6"
+    },
+    "timestamp": "2026-02-05T14:30:00Z",
+    "resolved": false
+  },
+  {
+    "id": "alert-7",
+    "agent": "drift",
+    "severity": "info",
+    "scope": "HQ",
+    "headline": "Strategy team direction drifting from board directive",
+    "detail": "The Board of Directors emphasized enterprise-first strategy in January, cautioning against mid-market expansion before reaching $10M enterprise ARR. However, the Strategy team approved a $2.5M mid-market expansion initiative based on Iris-Research's (now stale) market analysis. Current enterprise ARR is ~$4.2M \u2014 well below the $10M threshold. The strategy team's actions contradict the board's stated priority.",
+    "affected_node_ids": [
+      "person-16",
+      "person-19",
+      "fact-13",
+      "decision-4",
+      "fact-4",
+      "topic-6"
+    ],
+    "resolution": {
+      "authority": "person-19",
+      "action": "CEO Alex Reeves must reconcile the mid-market expansion initiative with the board directive. Options: (a) pause mid-market expansion until $10M enterprise ARR, (b) present updated analysis to board for revised guidance, (c) scale back mid-market initiative to pilot-only.",
+      "endpoint": "/api/resolve/alert-7"
+    },
+    "estimated_cost": "$2.5M initiative potentially misaligned with board",
+    "timestamp": "2026-02-06T02:30:00Z",
+    "resolved": false
+  }
+]

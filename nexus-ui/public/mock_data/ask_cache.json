@@ -1,0 +1,409 @@
+{
+  "queries": {
+    "what changed today": {
+      "items": [
+        {
+          "type": "answer",
+          "headline": "Billing API architecture switched from REST to GraphQL",
+          "detail": "The Payments team decided 3 hours ago to switch the billing API from REST v3 to GraphQL after Priya Sharma's performance analysis showed 40% fewer round trips for mobile clients. Atlas-Code has not been updated and is still generating REST v3 code.",
+          "division": "NA",
+          "affected_node_ids": [
+            "decision-3",
+            "decision-2",
+            "agent-1",
+            "person-2",
+            "fact-1"
+          ],
+          "actions": [
+            {
+              "label": "View decision chain",
+              "route": "/archaeology/decision-3"
+            },
+            {
+              "label": "Update Atlas-Code context",
+              "route": "/resolve/alert-3"
+            }
+          ]
+        },
+        {
+          "type": "contradiction",
+          "headline": "Conflicting Acme Corp pricing discovered",
+          "detail": "Nova-Sales sent Acme Corp a $15/seat proposal this morning, contradicting Sarah Chen's verbal $20/seat commitment from Feb 3. The discrepancy stems from Nova-Sales using an outdated Q3 pricing sheet that wasn't updated after the January price increase.",
+          "division": "NA",
+          "affected_node_ids": [
+            "commitment-1",
+            "commitment-2",
+            "person-6",
+            "agent-4",
+            "question-3"
+          ],
+          "actions": [
+            {
+              "label": "View contradiction",
+              "route": "/pulse?highlight=commitment-1,commitment-2"
+            },
+            {
+              "label": "Resolve pricing",
+              "route": "/resolve/alert-1"
+            }
+          ]
+        },
+        {
+          "type": "answer",
+          "headline": "GDPR audit found 3 non-compliant data flows",
+          "detail": "Sentinel-Compliance completed a GDPR audit and flagged 3 EMEA data flows where customer PII transits through US servers before EU processing. This needs immediate remediation and may impact the EMEA v2.0 launch timeline.",
+          "division": "EMEA",
+          "affected_node_ids": [
+            "fact-8",
+            "agent-3",
+            "person-18",
+            "person-12"
+          ],
+          "actions": [
+            {
+              "label": "View audit findings",
+              "route": "/pulse?highlight=fact-8"
+            },
+            {
+              "label": "Contact Legal",
+              "route": "/pulse?highlight=person-18"
+            }
+          ]
+        }
+      ],
+      "highlight_node_ids": [
+        "decision-3",
+        "agent-1",
+        "commitment-1",
+        "commitment-2",
+        "fact-8",
+        "person-6",
+        "person-2"
+      ]
+    },
+    "is anything about to go wrong": {
+      "items": [
+        {
+          "type": "contradiction",
+          "headline": "Two conflicting quotes sent to Acme Corp",
+          "detail": "Sarah Chen committed $20/seat verbally. Nova-Sales sent $15/seat via automated proposal. Acme Corp has both documents. If not resolved within 24 hours, the $120K ARR deal is at risk. The client may leverage the lower price or lose trust in Meridian's professionalism.",
+          "division": "NA",
+          "affected_node_ids": [
+            "commitment-1",
+            "commitment-2",
+            "person-6",
+            "agent-4"
+          ],
+          "actions": [
+            {
+              "label": "Resolve contradiction",
+              "route": "/resolve/alert-1"
+            },
+            {
+              "label": "View decision chain",
+              "route": "/archaeology/decision-1"
+            }
+          ]
+        },
+        {
+          "type": "staleness",
+          "headline": "Atlas-Code building against superseded specification",
+          "detail": "Atlas-Code has invested 4 hours writing REST v3 billing API code, but the team switched to GraphQL 3 hours ago. Every additional hour increases throwaway work. The agent's context feed is pointing to the superseded decision-2 instead of the new decision-3.",
+          "division": "NA",
+          "affected_node_ids": [
+            "agent-1",
+            "decision-2",
+            "decision-3",
+            "person-2"
+          ],
+          "actions": [
+            {
+              "label": "Update agent context",
+              "route": "/resolve/alert-3"
+            },
+            {
+              "label": "View stale context",
+              "route": "/pulse?highlight=agent-1,decision-2"
+            }
+          ]
+        },
+        {
+          "type": "silo",
+          "headline": "NA and EMEA building identical retry logic in parallel",
+          "detail": "Two teams on different continents are independently implementing the same exponential backoff + circuit breaker pattern for payment retry. Zero communication detected between them. Combined, this represents ~4 weeks of engineering time that could be halved with a shared library.",
+          "division": "cross-division",
+          "affected_node_ids": [
+            "fact-2",
+            "fact-3",
+            "person-2",
+            "person-9",
+            "person-10"
+          ],
+          "actions": [
+            {
+              "label": "Schedule cross-team sync",
+              "route": "/resolve/alert-4"
+            },
+            {
+              "label": "View silo details",
+              "route": "/pulse?highlight=fact-2,fact-3"
+            }
+          ]
+        }
+      ],
+      "highlight_node_ids": [
+        "commitment-1",
+        "commitment-2",
+        "agent-1",
+        "decision-2",
+        "fact-2",
+        "fact-3",
+        "person-6",
+        "person-2",
+        "person-9"
+      ]
+    },
+    "why did we switch pricing": {
+      "items": [
+        {
+          "type": "answer",
+          "headline": "Enterprise pricing increased from $15 to $20/seat in January",
+          "detail": "In the January 2026 quarterly pricing review, CFO Robert Daniels and VP Sales Sarah Chen approved raising the enterprise tier from $15 to $20/seat effective February 1. The decision was driven by: (1) competitive positioning \u2014 Zenith charges $22/seat, (2) enterprise churn at 2.1% being well below target, suggesting price elasticity, and (3) need to fund the mid-market expansion initiative. The quarterly pricing review cadence (decision-7) mandates these reviews every quarter.",
+          "division": "HQ",
+          "affected_node_ids": [
+            "decision-1",
+            "decision-7",
+            "person-17",
+            "person-6",
+            "fact-5"
+          ],
+          "actions": [
+            {
+              "label": "View full decision chain",
+              "route": "/archaeology/decision-1"
+            },
+            {
+              "label": "See pricing review process",
+              "route": "/archaeology/decision-7"
+            }
+          ]
+        },
+        {
+          "type": "contradiction",
+          "headline": "Nova-Sales was not updated with new pricing",
+          "detail": "The pricing change was approved and communicated to human sales staff, but Nova-Sales' pricing database was not updated. It continued using the Q3 pricing sheet ($15/seat). This led to 5 proposals being sent with incorrect pricing, including the Acme Corp deal.",
+          "division": "NA",
+          "affected_node_ids": [
+            "agent-4",
+            "fact-15",
+            "commitment-2",
+            "decision-1"
+          ],
+          "actions": [
+            {
+              "label": "Update Nova-Sales pricing",
+              "route": "/resolve/alert-1"
+            },
+            {
+              "label": "Review affected proposals",
+              "route": "/pulse?highlight=fact-15"
+            }
+          ]
+        },
+        {
+          "type": "answer",
+          "headline": "NPS impact may be related to pricing confusion",
+          "detail": "January NPS dropped 8 points (72 to 64). 40% of detractors cited pricing confusion. While the pricing increase is justified competitively, the inconsistency between human and AI-generated quotes may be amplifying customer dissatisfaction.",
+          "division": "NA",
+          "affected_node_ids": [
+            "fact-9",
+            "person-20",
+            "topic-1"
+          ],
+          "actions": [
+            {
+              "label": "View NPS data",
+              "route": "/pulse?highlight=fact-9"
+            },
+            {
+              "label": "Contact Customer Success",
+              "route": "/pulse?highlight=person-20"
+            }
+          ]
+        }
+      ],
+      "highlight_node_ids": [
+        "decision-1",
+        "decision-7",
+        "agent-4",
+        "fact-15",
+        "fact-9",
+        "person-17",
+        "person-6",
+        "commitment-1",
+        "commitment-2"
+      ]
+    },
+    "who should be in the payments review": {
+      "items": [
+        {
+          "type": "answer",
+          "headline": "Recommended stakeholders for payments review",
+          "detail": "Based on the knowledge graph, the following people have direct expertise or active involvement in payments infrastructure:\n\n1. **Marcus Rivera** (VP Eng) \u2014 decision authority for billing architecture, approved GraphQL switch\n2. **Priya Sharma** (Sr Backend Eng) \u2014 led GraphQL analysis, supervises Atlas-Code, owns NA retry logic\n3. **James Liu** (Staff Eng) \u2014 platform team, owns API performance monitoring\n4. **Anika Patel** (Eng Manager) \u2014 infrastructure, handled Feb 5 outage response\n5. **Henrik Johansson** (EMEA Eng Lead) \u2014 owns EMEA retry logic, critical for cross-region alignment\n6. **Atlas-Code** (AI Agent) \u2014 currently building billing API, needs context update",
+          "division": "cross-division",
+          "affected_node_ids": [
+            "person-1",
+            "person-2",
+            "person-3",
+            "person-4",
+            "person-9",
+            "agent-1"
+          ],
+          "actions": [
+            {
+              "label": "View payments topology",
+              "route": "/pulse?highlight=team-payments,team-billing-emea"
+            },
+            {
+              "label": "Schedule meeting",
+              "route": "/resolve/alert-4"
+            }
+          ]
+        },
+        {
+          "type": "answer",
+          "headline": "Optional attendees based on downstream impact",
+          "detail": "These stakeholders are indirectly affected and may want to attend or receive notes:\n\n- **Elena Kowalski** (EMEA Sr Eng) \u2014 working on EMEA retry implementation\n- **David Kim** (Head of Product) \u2014 v2.0 launch depends on billing readiness\n- **Sophie Dubois** (EMEA Ops) \u2014 operational impact of billing changes in EU",
+          "division": "cross-division",
+          "affected_node_ids": [
+            "person-10",
+            "person-5",
+            "person-12"
+          ],
+          "actions": [
+            {
+              "label": "View full impact graph",
+              "route": "/pulse?highlight=topic-4"
+            }
+          ]
+        },
+        {
+          "type": "answer",
+          "headline": "Key topics to cover in the review",
+          "detail": "Based on active issues in the payments domain:\n1. GraphQL migration decision \u2014 confirm direction and update Atlas-Code\n2. Retry logic unification \u2014 NA and EMEA building independently\n3. Feb 5 outage post-mortem \u2014 retry logic would have prevented 80% of failures\n4. v2.0 billing requirements for March 15 / April 1 launch",
+          "division": "NA",
+          "affected_node_ids": [
+            "decision-3",
+            "fact-2",
+            "fact-3",
+            "fact-6",
+            "commitment-3"
+          ],
+          "actions": [
+            {
+              "label": "View retry silo",
+              "route": "/pulse?highlight=fact-2,fact-3"
+            },
+            {
+              "label": "View launch timeline",
+              "route": "/pulse?highlight=commitment-3,commitment-4"
+            }
+          ]
+        }
+      ],
+      "highlight_node_ids": [
+        "person-1",
+        "person-2",
+        "person-3",
+        "person-4",
+        "person-9",
+        "person-10",
+        "agent-1",
+        "team-payments",
+        "team-billing-emea",
+        "topic-4"
+      ]
+    },
+    "what is atlas-code working on": {
+      "items": [
+        {
+          "type": "answer",
+          "headline": "Atlas-Code: currently generating REST v3 billing API code (STALE CONTEXT)",
+          "detail": "Atlas-Code is a coding agent supervised by Priya Sharma, assigned to the Payments team in NA Engineering. It has been working for 4 hours on:\n\n1. Building billing REST API v3 endpoint\n2. Writing unit tests for retry logic\n3. Refactoring payment gateway adapter\n\n**CRITICAL**: The team switched from REST to GraphQL 3 hours ago (decision-3), but Atlas-Code's context has not been updated. It is building against a superseded specification (decision-2). Trust level: supervised.",
+          "division": "NA",
+          "affected_node_ids": [
+            "agent-1",
+            "person-2",
+            "person-1",
+            "decision-2",
+            "decision-3",
+            "fact-1"
+          ],
+          "actions": [
+            {
+              "label": "Update agent context",
+              "route": "/resolve/alert-3"
+            },
+            {
+              "label": "View agent topology",
+              "route": "/pulse?highlight=agent-1"
+            },
+            {
+              "label": "View superseded decision",
+              "route": "/archaeology/decision-2"
+            }
+          ]
+        },
+        {
+          "type": "staleness",
+          "headline": "Agent operating on stale context \u2014 immediate action needed",
+          "detail": "Atlas-Code's context feed is connected to decision-2 (REST v3 architecture), which was superseded by decision-3 (GraphQL) at 11:30 AM today. The CONTEXT_FEEDS edge from decision-2 to agent-1 is delivering outdated specifications. Every additional hour of work increases throwaway code and delays the actual GraphQL implementation.",
+          "division": "NA",
+          "affected_node_ids": [
+            "agent-1",
+            "decision-2",
+            "decision-3"
+          ],
+          "actions": [
+            {
+              "label": "Resolve stale context alert",
+              "route": "/resolve/alert-3"
+            },
+            {
+              "label": "View context feed chain",
+              "route": "/pulse?highlight=agent-1,decision-2,decision-3"
+            }
+          ]
+        },
+        {
+          "type": "answer",
+          "headline": "Atlas-Code interaction summary",
+          "detail": "Atlas-Code interacts with:\n- **Priya Sharma** \u2014 supervising engineer, delegates code generation\n- **Marcus Rivera** \u2014 VP Eng, reviews output\n- **Sentinel-Compliance** \u2014 AI-AI communication for compliance checks on generated code\n- **Billing Infrastructure** topic \u2014 primary domain\n- **Payment Retry Logic** topic \u2014 secondary involvement via retry test generation\n\nAtlas-Code's handoff protocol requires Priya's code review before any PR is merged.",
+          "division": "NA",
+          "affected_node_ids": [
+            "agent-1",
+            "person-2",
+            "person-1",
+            "agent-3",
+            "topic-4"
+          ],
+          "actions": [
+            {
+              "label": "View agent relationships",
+              "route": "/pulse?highlight=agent-1"
+            }
+          ]
+        }
+      ],
+      "highlight_node_ids": [
+        "agent-1",
+        "person-2",
+        "person-1",
+        "decision-2",
+        "decision-3",
+        "fact-1",
+        "topic-4"
+      ]
+    }
+  }
+}

@@ -1,22 +1,32 @@
-const colors: Record<string, string> = {
-  'on-track': 'bg-accent-green/20 text-accent-green',
-  'at-risk': 'bg-accent-amber/20 text-accent-amber',
-  overdue: 'bg-accent-red/20 text-accent-red',
-  blocked: 'bg-accent-red/20 text-accent-red',
-  active: 'bg-accent-blue/20 text-accent-blue',
-  superseded: 'bg-text-tertiary/20 text-text-tertiary',
-  resolved: 'bg-accent-green/20 text-accent-green',
+const colors: Record<string, { bg: string; text: string; dot: string }> = {
+  'on-track':   { bg: 'bg-accent-green/15', text: 'text-accent-green', dot: 'bg-accent-green' },
+  'at-risk':    { bg: 'bg-accent-amber/15', text: 'text-accent-amber', dot: 'bg-accent-amber' },
+  overdue:      { bg: 'bg-accent-red/15',   text: 'text-accent-red',   dot: 'bg-accent-red' },
+  blocked:      { bg: 'bg-accent-red/15',   text: 'text-accent-red',   dot: 'bg-accent-red' },
+  active:       { bg: 'bg-accent-blue/15',  text: 'text-accent-blue',  dot: 'bg-accent-blue' },
+  superseded:   { bg: 'bg-text-tertiary/15', text: 'text-text-tertiary', dot: 'bg-text-tertiary' },
+  resolved:     { bg: 'bg-accent-green/15', text: 'text-accent-green', dot: 'bg-accent-green' },
 }
+
+const fallback = { bg: 'bg-text-tertiary/15', text: 'text-text-tertiary', dot: 'bg-text-tertiary' }
 
 interface StatusTagProps {
   status: string
 }
 
 export function StatusTag({ status }: StatusTagProps) {
-  const color = colors[status] || 'bg-text-tertiary/20 text-text-tertiary'
+  const c = colors[status] ?? fallback
   return (
-    <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${color}`}>
-      {status}
+    <span
+      className={[
+        'inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium',
+        'border border-white/5',
+        c.bg,
+        c.text,
+      ].join(' ')}
+    >
+      <span className={`w-1.5 h-1.5 rounded-full ${c.dot}`} />
+      {status.replace(/-/g, ' ').replace(/_/g, ' ')}
     </span>
   )
 }

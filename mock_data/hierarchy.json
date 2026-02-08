@@ -1,0 +1,524 @@
+{
+  "enterprise": {
+    "id": "enterprise-meridian",
+    "name": "Meridian Technologies",
+    "health": "orange",
+    "divisions": [
+      {
+        "id": "div-na",
+        "name": "North America",
+        "health": "orange",
+        "node_count": 40,
+        "alert_count": 3,
+        "departments": [
+          {
+            "id": "dept-na-eng",
+            "name": "NA Engineering",
+            "health": "yellow",
+            "teams": [
+              {
+                "id": "team-payments",
+                "name": "Payments",
+                "health": "yellow",
+                "members": [
+                  "person-1",
+                  "person-2",
+                  "agent-1"
+                ],
+                "edges": [
+                  "edge-1",
+                  "edge-2",
+                  "edge-21",
+                  "edge-22",
+                  "edge-29",
+                  "edge-35",
+                  "edge-36",
+                  "edge-37",
+                  "edge-38",
+                  "edge-46",
+                  "edge-48",
+                  "edge-52",
+                  "edge-53",
+                  "edge-72",
+                  "edge-73",
+                  "edge-75",
+                  "edge-76",
+                  "edge-77",
+                  "edge-78",
+                  "edge-79"
+                ]
+              },
+              {
+                "id": "team-platform",
+                "name": "Platform",
+                "health": "yellow",
+                "members": [
+                  "person-3"
+                ],
+                "edges": [
+                  "edge-3",
+                  "edge-36",
+                  "edge-192",
+                  "edge-193",
+                  "edge-222",
+                  "edge-232",
+                  "edge-240"
+                ]
+              },
+              {
+                "id": "team-infra",
+                "name": "Infrastructure",
+                "health": "yellow",
+                "members": [
+                  "person-4"
+                ],
+                "edges": [
+                  "edge-4",
+                  "edge-37",
+                  "edge-128",
+                  "edge-132",
+                  "edge-133",
+                  "edge-213",
+                  "edge-214",
+                  "edge-231"
+                ]
+              },
+              {
+                "id": "team-data-eng",
+                "name": "Data Engineering",
+                "health": "green",
+                "members": [],
+                "edges": []
+              }
+            ]
+          },
+          {
+            "id": "dept-na-product",
+            "name": "NA Product",
+            "health": "orange",
+            "teams": [
+              {
+                "id": "team-product-na",
+                "name": "NA Product Management",
+                "health": "orange",
+                "members": [
+                  "person-5"
+                ],
+                "edges": [
+                  "edge-5",
+                  "edge-30",
+                  "edge-47",
+                  "edge-106",
+                  "edge-109",
+                  "edge-113",
+                  "edge-116",
+                  "edge-162",
+                  "edge-165",
+                  "edge-217",
+                  "edge-221"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "dept-na-sales",
+            "name": "NA Sales",
+            "health": "yellow",
+            "teams": [
+              {
+                "id": "team-sales-na",
+                "name": "NA Sales",
+                "health": "yellow",
+                "members": [
+                  "person-6",
+                  "person-7",
+                  "agent-4"
+                ],
+                "edges": [
+                  "edge-6",
+                  "edge-7",
+                  "edge-27",
+                  "edge-28",
+                  "edge-31",
+                  "edge-39",
+                  "edge-40",
+                  "edge-41",
+                  "edge-45",
+                  "edge-51",
+                  "edge-56",
+                  "edge-57",
+                  "edge-58",
+                  "edge-59",
+                  "edge-64",
+                  "edge-65",
+                  "edge-66",
+                  "edge-69",
+                  "edge-70",
+                  "edge-71"
+                ]
+              },
+              {
+                "id": "team-solutions",
+                "name": "Solutions Engineering",
+                "health": "yellow",
+                "members": [
+                  "person-8"
+                ],
+                "edges": [
+                  "edge-8",
+                  "edge-40",
+                  "edge-234"
+                ]
+              },
+              {
+                "id": "team-customer-success",
+                "name": "Customer Success",
+                "health": "yellow",
+                "members": [
+                  "person-20"
+                ],
+                "edges": [
+                  "edge-20",
+                  "edge-41",
+                  "edge-129",
+                  "edge-130",
+                  "edge-143",
+                  "edge-144"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "div-emea",
+        "name": "EMEA",
+        "health": "yellow",
+        "node_count": 13,
+        "alert_count": 2,
+        "departments": [
+          {
+            "id": "dept-emea-eng",
+            "name": "EMEA Engineering",
+            "health": "yellow",
+            "teams": [
+              {
+                "id": "team-billing-emea",
+                "name": "EMEA Billing",
+                "health": "yellow",
+                "members": [
+                  "person-9",
+                  "person-10"
+                ],
+                "edges": [
+                  "edge-9",
+                  "edge-10",
+                  "edge-38",
+                  "edge-42",
+                  "edge-43",
+                  "edge-44",
+                  "edge-84",
+                  "edge-87",
+                  "edge-88",
+                  "edge-93",
+                  "edge-107",
+                  "edge-110",
+                  "edge-117",
+                  "edge-161",
+                  "edge-216",
+                  "edge-217",
+                  "edge-241",
+                  "edge-242"
+                ]
+              },
+              {
+                "id": "team-backend-emea",
+                "name": "EMEA Backend",
+                "health": "green",
+                "members": [
+                  "person-11"
+                ],
+                "edges": [
+                  "edge-11",
+                  "edge-43",
+                  "edge-235",
+                  "edge-241"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "dept-emea-ops",
+            "name": "EMEA Operations",
+            "health": "yellow",
+            "teams": [
+              {
+                "id": "team-ops-emea",
+                "name": "EMEA Ops",
+                "health": "yellow",
+                "members": [
+                  "person-12"
+                ],
+                "edges": [
+                  "edge-12",
+                  "edge-44",
+                  "edge-112",
+                  "edge-141",
+                  "edge-225"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "dept-emea-sales",
+            "name": "EMEA Sales",
+            "health": "yellow",
+            "teams": [
+              {
+                "id": "team-sales-emea",
+                "name": "EMEA Sales",
+                "health": "yellow",
+                "members": [
+                  "person-13"
+                ],
+                "edges": [
+                  "edge-13",
+                  "edge-45",
+                  "edge-210",
+                  "edge-211",
+                  "edge-218",
+                  "edge-225"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "div-apac",
+        "name": "Asia Pacific",
+        "health": "yellow",
+        "node_count": 6,
+        "alert_count": 0,
+        "departments": [
+          {
+            "id": "dept-apac-eng",
+            "name": "APAC Engineering",
+            "health": "yellow",
+            "teams": [
+              {
+                "id": "team-mobile-apac",
+                "name": "APAC Mobile",
+                "health": "yellow",
+                "members": [
+                  "person-14"
+                ],
+                "edges": [
+                  "edge-14",
+                  "edge-46",
+                  "edge-123",
+                  "edge-124",
+                  "edge-152",
+                  "edge-223"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "dept-apac-growth",
+            "name": "APAC Growth",
+            "health": "yellow",
+            "teams": [
+              {
+                "id": "team-growth-apac",
+                "name": "APAC Growth",
+                "health": "yellow",
+                "members": [
+                  "person-15"
+                ],
+                "edges": [
+                  "edge-15",
+                  "edge-47",
+                  "edge-125",
+                  "edge-150",
+                  "edge-151",
+                  "edge-223",
+                  "edge-243"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "div-hq",
+        "name": "HQ / Corporate",
+        "health": "orange",
+        "node_count": 28,
+        "alert_count": 2,
+        "departments": [
+          {
+            "id": "dept-hq-strategy",
+            "name": "Strategy",
+            "health": "yellow",
+            "teams": [
+              {
+                "id": "team-strategy",
+                "name": "Strategy",
+                "health": "yellow",
+                "members": [
+                  "person-16",
+                  "agent-2"
+                ],
+                "edges": [
+                  "edge-16",
+                  "edge-23",
+                  "edge-24",
+                  "edge-32",
+                  "edge-49",
+                  "edge-54",
+                  "edge-94",
+                  "edge-98",
+                  "edge-100",
+                  "edge-104",
+                  "edge-105",
+                  "edge-136",
+                  "edge-137",
+                  "edge-185",
+                  "edge-190",
+                  "edge-219",
+                  "edge-227"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "dept-hq-finance",
+            "name": "Finance",
+            "health": "orange",
+            "teams": [
+              {
+                "id": "team-fp-a",
+                "name": "FP&A",
+                "health": "orange",
+                "members": [
+                  "person-17"
+                ],
+                "edges": [
+                  "edge-17",
+                  "edge-33",
+                  "edge-61",
+                  "edge-63",
+                  "edge-101",
+                  "edge-103",
+                  "edge-118",
+                  "edge-171",
+                  "edge-195",
+                  "edge-196",
+                  "edge-220",
+                  "edge-224",
+                  "edge-233"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "dept-hq-legal",
+            "name": "Legal & Compliance",
+            "health": "yellow",
+            "teams": [
+              {
+                "id": "team-legal",
+                "name": "Legal",
+                "health": "yellow",
+                "members": [
+                  "person-18"
+                ],
+                "edges": [
+                  "edge-18",
+                  "edge-26",
+                  "edge-34",
+                  "edge-50",
+                  "edge-55",
+                  "edge-122",
+                  "edge-140",
+                  "edge-149",
+                  "edge-154",
+                  "edge-155",
+                  "edge-179",
+                  "edge-183",
+                  "edge-206",
+                  "edge-224",
+                  "edge-229"
+                ]
+              },
+              {
+                "id": "team-compliance",
+                "name": "Compliance",
+                "health": "yellow",
+                "members": [
+                  "agent-3"
+                ],
+                "edges": [
+                  "edge-25",
+                  "edge-26",
+                  "edge-50",
+                  "edge-55",
+                  "edge-121",
+                  "edge-139",
+                  "edge-142",
+                  "edge-184",
+                  "edge-205",
+                  "edge-226",
+                  "edge-229"
+                ]
+              },
+              {
+                "id": "team-security",
+                "name": "Security",
+                "health": "green",
+                "members": [],
+                "edges": []
+              }
+            ]
+          },
+          {
+            "id": "dept-hq-executive",
+            "name": "Executive Office",
+            "health": "orange",
+            "teams": [
+              {
+                "id": "team-exec",
+                "name": "Executive Team",
+                "health": "orange",
+                "members": [
+                  "person-19"
+                ],
+                "edges": [
+                  "edge-19",
+                  "edge-29",
+                  "edge-30",
+                  "edge-31",
+                  "edge-32",
+                  "edge-33",
+                  "edge-34",
+                  "edge-95",
+                  "edge-97",
+                  "edge-111",
+                  "edge-120",
+                  "edge-166",
+                  "edge-191",
+                  "edge-198",
+                  "edge-200",
+                  "edge-201",
+                  "edge-202",
+                  "edge-219"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

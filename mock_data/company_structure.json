@@ -1,0 +1,595 @@
+{
+  "company": "Meridian Technologies",
+  "generated_at": "2026-02-07T14:30:00Z",
+  "divisions": [
+    {
+      "id": "div-na",
+      "name": "North America",
+      "code": "NA",
+      "departments": [
+        {
+          "id": "dept-na-eng",
+          "name": "NA Engineering",
+          "division": "NA",
+          "teams": [
+            {
+              "id": "team-payments",
+              "name": "Payments",
+              "department": "dept-na-eng",
+              "division": "NA",
+              "members": [
+                {
+                  "id": "person-1",
+                  "name": "Marcus Rivera",
+                  "role": "VP of Engineering",
+                  "team": "team-payments",
+                  "department": "dept-na-eng",
+                  "division": "NA",
+                  "cognitive_load": 72,
+                  "active_commitments": 6,
+                  "pending_decisions": 4
+                },
+                {
+                  "id": "person-2",
+                  "name": "Priya Sharma",
+                  "role": "Senior Backend Engineer",
+                  "team": "team-payments",
+                  "department": "dept-na-eng",
+                  "division": "NA",
+                  "cognitive_load": 55,
+                  "active_commitments": 4,
+                  "pending_decisions": 2
+                }
+              ],
+              "agents": [
+                {
+                  "id": "agent-1",
+                  "name": "Atlas-Code",
+                  "agent_type": "coding",
+                  "trust_level": "supervised",
+                  "supervising_human": "person-2",
+                  "team": "team-payments",
+                  "department": "dept-na-eng",
+                  "division": "NA",
+                  "active_tasks": [
+                    "Building billing REST API v3 endpoint",
+                    "Writing unit tests for retry logic",
+                    "Refactoring payment gateway adapter"
+                  ],
+                  "cognitive_load": 65,
+                  "active_commitments": 3,
+                  "pending_decisions": 0
+                }
+              ]
+            },
+            {
+              "id": "team-platform",
+              "name": "Platform",
+              "department": "dept-na-eng",
+              "division": "NA",
+              "members": [
+                {
+                  "id": "person-3",
+                  "name": "James Liu",
+                  "role": "Staff Engineer",
+                  "team": "team-platform",
+                  "department": "dept-na-eng",
+                  "division": "NA",
+                  "cognitive_load": 48,
+                  "active_commitments": 3,
+                  "pending_decisions": 2
+                }
+              ],
+              "agents": []
+            },
+            {
+              "id": "team-infra",
+              "name": "Infrastructure",
+              "department": "dept-na-eng",
+              "division": "NA",
+              "members": [
+                {
+                  "id": "person-4",
+                  "name": "Anika Patel",
+                  "role": "Engineering Manager",
+                  "team": "team-infra",
+                  "department": "dept-na-eng",
+                  "division": "NA",
+                  "cognitive_load": 62,
+                  "active_commitments": 5,
+                  "pending_decisions": 3
+                }
+              ],
+              "agents": []
+            },
+            {
+              "id": "team-data-eng",
+              "name": "Data Engineering",
+              "department": "dept-na-eng",
+              "division": "NA",
+              "members": [],
+              "agents": []
+            }
+          ]
+        },
+        {
+          "id": "dept-na-product",
+          "name": "NA Product",
+          "division": "NA",
+          "teams": [
+            {
+              "id": "team-product-na",
+              "name": "NA Product Management",
+              "department": "dept-na-product",
+              "division": "NA",
+              "members": [
+                {
+                  "id": "person-5",
+                  "name": "David Kim",
+                  "role": "Head of Product",
+                  "team": "team-product-na",
+                  "department": "dept-na-product",
+                  "division": "NA",
+                  "cognitive_load": 78,
+                  "active_commitments": 7,
+                  "pending_decisions": 5
+                }
+              ],
+              "agents": []
+            }
+          ]
+        },
+        {
+          "id": "dept-na-sales",
+          "name": "NA Sales",
+          "division": "NA",
+          "teams": [
+            {
+              "id": "team-sales-na",
+              "name": "NA Sales",
+              "department": "dept-na-sales",
+              "division": "NA",
+              "members": [
+                {
+                  "id": "person-6",
+                  "name": "Sarah Chen",
+                  "role": "VP of Sales",
+                  "team": "team-sales-na",
+                  "department": "dept-na-sales",
+                  "division": "NA",
+                  "cognitive_load": 68,
+                  "active_commitments": 5,
+                  "pending_decisions": 3
+                },
+                {
+                  "id": "person-7",
+                  "name": "Tom Bradley",
+                  "role": "Account Executive",
+                  "team": "team-sales-na",
+                  "department": "dept-na-sales",
+                  "division": "NA",
+                  "cognitive_load": 45,
+                  "active_commitments": 3,
+                  "pending_decisions": 1
+                }
+              ],
+              "agents": [
+                {
+                  "id": "agent-4",
+                  "name": "Nova-Sales",
+                  "agent_type": "customer",
+                  "trust_level": "autonomous",
+                  "supervising_human": "person-6",
+                  "team": "team-sales-na",
+                  "department": "dept-na-sales",
+                  "division": "NA",
+                  "active_tasks": [
+                    "Generating Acme Corp proposal",
+                    "Drafting follow-up for Beta Inc",
+                    "Pricing sheet update"
+                  ],
+                  "cognitive_load": 55,
+                  "active_commitments": 3,
+                  "pending_decisions": 0
+                }
+              ]
+            },
+            {
+              "id": "team-solutions",
+              "name": "Solutions Engineering",
+              "department": "dept-na-sales",
+              "division": "NA",
+              "members": [
+                {
+                  "id": "person-8",
+                  "name": "Rachel Nguyen",
+                  "role": "Solutions Architect",
+                  "team": "team-solutions",
+                  "department": "dept-na-sales",
+                  "division": "NA",
+                  "cognitive_load": 51,
+                  "active_commitments": 4,
+                  "pending_decisions": 2
+                }
+              ],
+              "agents": []
+            },
+            {
+              "id": "team-customer-success",
+              "name": "Customer Success",
+              "department": "dept-na-sales",
+              "division": "NA",
+              "members": [
+                {
+                  "id": "person-20",
+                  "name": "Maria Santos",
+                  "role": "VP of Customer Success",
+                  "team": "team-customer-success",
+                  "department": "dept-na-sales",
+                  "division": "NA",
+                  "cognitive_load": 56,
+                  "active_commitments": 4,
+                  "pending_decisions": 2
+                }
+              ],
+              "agents": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "div-emea",
+      "name": "EMEA",
+      "code": "EMEA",
+      "departments": [
+        {
+          "id": "dept-emea-eng",
+          "name": "EMEA Engineering",
+          "division": "EMEA",
+          "teams": [
+            {
+              "id": "team-billing-emea",
+              "name": "EMEA Billing",
+              "department": "dept-emea-eng",
+              "division": "EMEA",
+              "members": [
+                {
+                  "id": "person-9",
+                  "name": "Henrik Johansson",
+                  "role": "EMEA Engineering Lead",
+                  "team": "team-billing-emea",
+                  "department": "dept-emea-eng",
+                  "division": "EMEA",
+                  "cognitive_load": 58,
+                  "active_commitments": 4,
+                  "pending_decisions": 3
+                },
+                {
+                  "id": "person-10",
+                  "name": "Elena Kowalski",
+                  "role": "Senior Engineer",
+                  "team": "team-billing-emea",
+                  "department": "dept-emea-eng",
+                  "division": "EMEA",
+                  "cognitive_load": 42,
+                  "active_commitments": 3,
+                  "pending_decisions": 1
+                }
+              ],
+              "agents": []
+            },
+            {
+              "id": "team-backend-emea",
+              "name": "EMEA Backend",
+              "department": "dept-emea-eng",
+              "division": "EMEA",
+              "members": [
+                {
+                  "id": "person-11",
+                  "name": "Omar Hassan",
+                  "role": "Backend Developer",
+                  "team": "team-backend-emea",
+                  "department": "dept-emea-eng",
+                  "division": "EMEA",
+                  "cognitive_load": 35,
+                  "active_commitments": 2,
+                  "pending_decisions": 1
+                }
+              ],
+              "agents": []
+            }
+          ]
+        },
+        {
+          "id": "dept-emea-ops",
+          "name": "EMEA Operations",
+          "division": "EMEA",
+          "teams": [
+            {
+              "id": "team-ops-emea",
+              "name": "EMEA Ops",
+              "department": "dept-emea-ops",
+              "division": "EMEA",
+              "members": [
+                {
+                  "id": "person-12",
+                  "name": "Sophie Dubois",
+                  "role": "EMEA Operations Manager",
+                  "team": "team-ops-emea",
+                  "department": "dept-emea-ops",
+                  "division": "EMEA",
+                  "cognitive_load": 50,
+                  "active_commitments": 4,
+                  "pending_decisions": 2
+                }
+              ],
+              "agents": []
+            }
+          ]
+        },
+        {
+          "id": "dept-emea-sales",
+          "name": "EMEA Sales",
+          "division": "EMEA",
+          "teams": [
+            {
+              "id": "team-sales-emea",
+              "name": "EMEA Sales",
+              "department": "dept-emea-sales",
+              "division": "EMEA",
+              "members": [
+                {
+                  "id": "person-13",
+                  "name": "Lars Mueller",
+                  "role": "EMEA Sales Director",
+                  "team": "team-sales-emea",
+                  "department": "dept-emea-sales",
+                  "division": "EMEA",
+                  "cognitive_load": 61,
+                  "active_commitments": 5,
+                  "pending_decisions": 3
+                }
+              ],
+              "agents": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "div-apac",
+      "name": "Asia Pacific",
+      "code": "APAC",
+      "departments": [
+        {
+          "id": "dept-apac-eng",
+          "name": "APAC Engineering",
+          "division": "APAC",
+          "teams": [
+            {
+              "id": "team-mobile-apac",
+              "name": "APAC Mobile",
+              "department": "dept-apac-eng",
+              "division": "APAC",
+              "members": [
+                {
+                  "id": "person-14",
+                  "name": "Yuki Tanaka",
+                  "role": "APAC Engineering Lead",
+                  "team": "team-mobile-apac",
+                  "department": "dept-apac-eng",
+                  "division": "APAC",
+                  "cognitive_load": 44,
+                  "active_commitments": 3,
+                  "pending_decisions": 2
+                }
+              ],
+              "agents": []
+            }
+          ]
+        },
+        {
+          "id": "dept-apac-growth",
+          "name": "APAC Growth",
+          "division": "APAC",
+          "teams": [
+            {
+              "id": "team-growth-apac",
+              "name": "APAC Growth",
+              "department": "dept-apac-growth",
+              "division": "APAC",
+              "members": [
+                {
+                  "id": "person-15",
+                  "name": "Wei Zhang",
+                  "role": "Growth Lead",
+                  "team": "team-growth-apac",
+                  "department": "dept-apac-growth",
+                  "division": "APAC",
+                  "cognitive_load": 53,
+                  "active_commitments": 4,
+                  "pending_decisions": 2
+                }
+              ],
+              "agents": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "div-hq",
+      "name": "HQ / Corporate",
+      "code": "HQ",
+      "departments": [
+        {
+          "id": "dept-hq-strategy",
+          "name": "Strategy",
+          "division": "HQ",
+          "teams": [
+            {
+              "id": "team-strategy",
+              "name": "Strategy",
+              "department": "dept-hq-strategy",
+              "division": "HQ",
+              "members": [
+                {
+                  "id": "person-16",
+                  "name": "Catherine Moore",
+                  "role": "Chief Strategy Officer",
+                  "team": "team-strategy",
+                  "department": "dept-hq-strategy",
+                  "division": "HQ",
+                  "cognitive_load": 88,
+                  "active_commitments": 8,
+                  "pending_decisions": 6
+                }
+              ],
+              "agents": [
+                {
+                  "id": "agent-2",
+                  "name": "Iris-Research",
+                  "agent_type": "research",
+                  "trust_level": "supervised",
+                  "supervising_human": "person-16",
+                  "team": "team-strategy",
+                  "department": "dept-hq-strategy",
+                  "division": "HQ",
+                  "active_tasks": [
+                    "Synthesizing Q4 market data",
+                    "Competitor pricing analysis",
+                    "TAM expansion modeling"
+                  ],
+                  "cognitive_load": 40,
+                  "active_commitments": 3,
+                  "pending_decisions": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "dept-hq-finance",
+          "name": "Finance",
+          "division": "HQ",
+          "teams": [
+            {
+              "id": "team-fp-a",
+              "name": "FP&A",
+              "department": "dept-hq-finance",
+              "division": "HQ",
+              "members": [
+                {
+                  "id": "person-17",
+                  "name": "Robert Daniels",
+                  "role": "CFO",
+                  "team": "team-fp-a",
+                  "department": "dept-hq-finance",
+                  "division": "HQ",
+                  "cognitive_load": 75,
+                  "active_commitments": 6,
+                  "pending_decisions": 4
+                }
+              ],
+              "agents": []
+            }
+          ]
+        },
+        {
+          "id": "dept-hq-legal",
+          "name": "Legal & Compliance",
+          "division": "HQ",
+          "teams": [
+            {
+              "id": "team-legal",
+              "name": "Legal",
+              "department": "dept-hq-legal",
+              "division": "HQ",
+              "members": [
+                {
+                  "id": "person-18",
+                  "name": "Nina Volkov",
+                  "role": "General Counsel",
+                  "team": "team-legal",
+                  "department": "dept-hq-legal",
+                  "division": "HQ",
+                  "cognitive_load": 60,
+                  "active_commitments": 5,
+                  "pending_decisions": 3
+                }
+              ],
+              "agents": []
+            },
+            {
+              "id": "team-compliance",
+              "name": "Compliance",
+              "department": "dept-hq-legal",
+              "division": "HQ",
+              "members": [],
+              "agents": [
+                {
+                  "id": "agent-3",
+                  "name": "Sentinel-Compliance",
+                  "agent_type": "operations",
+                  "trust_level": "review_required",
+                  "supervising_human": "person-18",
+                  "team": "team-compliance",
+                  "department": "dept-hq-legal",
+                  "division": "HQ",
+                  "active_tasks": [
+                    "Reviewing vendor contracts batch 12",
+                    "GDPR audit for EMEA data flows",
+                    "SOC2 evidence collection"
+                  ],
+                  "cognitive_load": 50,
+                  "active_commitments": 3,
+                  "pending_decisions": 0
+                }
+              ]
+            },
+            {
+              "id": "team-security",
+              "name": "Security",
+              "department": "dept-hq-legal",
+              "division": "HQ",
+              "members": [],
+              "agents": []
+            }
+          ]
+        },
+        {
+          "id": "dept-hq-executive",
+          "name": "Executive Office",
+          "division": "HQ",
+          "teams": [
+            {
+              "id": "team-exec",
+              "name": "Executive Team",
+              "department": "dept-hq-executive",
+              "division": "HQ",
+              "members": [
+                {
+                  "id": "person-19",
+                  "name": "Alex Reeves",
+                  "role": "CEO",
+                  "team": "team-exec",
+                  "department": "dept-hq-executive",
+                  "division": "HQ",
+                  "cognitive_load": 82,
+                  "active_commitments": 7,
+                  "pending_decisions": 5
+                }
+              ],
+              "agents": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "people_count": 20,
+  "agent_count": 4,
+  "team_count": 20,
+  "department_count": 12
+}
