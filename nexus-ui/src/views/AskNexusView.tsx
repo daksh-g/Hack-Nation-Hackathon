@@ -1,8 +1,9 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Search, Sparkles, ArrowRight } from 'lucide-react'
+import { Search, Sparkles, ArrowRight, Zap } from 'lucide-react'
 import type { AskResponse } from '../types/graph'
 import { askNexus } from '../lib/api'
+import { streamPost } from '../lib/sse'
 import { DivisionScopeBadge, FeedbackWidget } from '../components/shared'
 
 const SUGGESTED_QUERIES = [
@@ -50,6 +51,10 @@ export function AskNexusView() {
   const [query, setQuery] = useState('')
   const [response, setResponse] = useState<AskResponse | null>(null)
   const [loading, setLoading] = useState(false)
+  const [streamText, setStreamText] = useState('')
+  const [isStreaming, setIsStreaming] = useState(false)
+  const [useStream, setUseStream] = useState(false)
+  const streamTextRef = useRef('')
 
   const handleSubmit = useCallback(
     async (q?: string) => {
@@ -57,15 +62,43 @@ export function AskNexusView() {
       if (!text.trim()) return
       setLoading(true)
       setResponse(null)
-      try {
-        const res = await askNexus(text)
-        setResponse(res)
-      } catch (err) {
-        console.error('Ask failed:', err)
+      setStreamText('')
+      streamTextRef.current = ''
+
+      if (useStream) {
+        setIsStreaming(true)
+        try {
+          await streamPost('/api/ask', { query: text, stream: true }, {
+            onToken: (token) => {
+              streamTextRef.current += token
+              setStreamText(streamTextRef.current)
+            },
+            onDone: () => {
+              setIsStreaming(false)
+              setLoading(false)
+            },
+            onError: (err) => {
+              console.error('Stream error:', err)
+              setIsStreaming(false)
+              setLoading(false)
+            },
+          })
+        } catch (err) {
+          console.error('Stream failed:', err)
+          setIsStreaming(false)
+          setLoading(false)
+        }
+      } else {
+        try {
+          const res = await askNexus(text)
+          setResponse(res)
+        } catch (err) {
+          console.error('Ask failed:', err)
+        }
+        setLoading(false)
       }
-      setLoading(false)
     },
-    [query]
+    [query, useStream]
   )
 
   const handleChipClick = useCallback(
@@ -91,7 +124,7 @@ export function AskNexusView() {
         </div>
 
         {/* Search input */}
-        <div className="relative mb-6">
+        <div className="relative mb-4">
           <Search
             className="absolute left-4 top-1/2 -translate-y-1/2 text-text-tertiary pointer-events-none"
             size={20}
@@ -105,6 +138,21 @@ export function AskNexusView() {
             placeholder="Ask NEXUS anything..."
             className="w-full h-12 pl-12 pr-4 bg-cards rounded-lg border border-white/10 text-text-primary placeholder:text-text-tertiary outline-none focus:border-accent-blue/50 focus:shadow-[0_0_0_3px_rgba(59,130,246,0.15)] transition-all duration-200"
           />
+        </div>
+
+        {/* Stream toggle */}
+        <div className="flex items-center justify-end gap-2 mb-6">
+          <button
+            onClick={() => setUseStream(!useStream)}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 ${
+              useStream
+                ? 'bg-accent-blue/20 text-accent-blue border border-accent-blue/30'
+                : 'bg-white/5 text-text-tertiary border border-white/10 hover:border-white/20'
+            }`}
+          >
+            <Zap size={12} />
+            {useStream ? 'Streaming On' : 'Streaming Off'}
+          </button>
         </div>
 
         {/* Suggested queries */}
@@ -123,7 +171,28 @@ export function AskNexusView() {
         )}
 
         {/* Loading state */}
-        {loading && <LoadingDots />}
+        {loading && !isStreaming && <LoadingDots />}
+
+        {/* Streaming response */}
+        {(isStreaming || streamText) && !response && (
+          <div className="bg-cards rounded-lg border border-white/5 border-l-[3px] border-l-accent-blue p-5 mb-4">
+            <div className="flex items-center gap-2 mb-3">
+              <Sparkles size={14} className="text-accent-blue" />
+              <span className="text-xs font-semibold text-accent-blue uppercase tracking-wider">
+                LLM Response
+              </span>
+              {isStreaming && (
+                <span className="w-1.5 h-1.5 rounded-full bg-accent-blue animate-pulse" />
+              )}
+            </div>
+            <div className="text-sm text-text-secondary leading-relaxed whitespace-pre-wrap">
+              {streamText}
+              {isStreaming && (
+                <span className="inline-block w-0.5 h-4 bg-accent-blue ml-0.5 animate-pulse align-middle" />
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Response */}
         {response && (

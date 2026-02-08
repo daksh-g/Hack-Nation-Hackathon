@@ -1,10 +1,13 @@
+import os
 import uuid
+import logging
 from datetime import datetime, timezone
 from fastapi import APIRouter
 from pydantic import BaseModel
 from services.graph_store import load_graph
 
 router = APIRouter(prefix="/api")
+logger = logging.getLogger("nexus.info")
 
 
 class InfoRequest(BaseModel):
@@ -13,13 +16,22 @@ class InfoRequest(BaseModel):
 
 @router.post("/info")
 async def info_drop(request: InfoRequest):
-    graph = load_graph()
     text = request.text.strip()
 
-    # Create a new knowledge unit from the info drop
+    # Try LLM-powered InfoDrop if OpenAI key is configured
+    if os.getenv("OPENAI_API_KEY"):
+        try:
+            from services.infodrop_v2 import process_infodrop
+            result = await process_infodrop(text)
+            logger.info(f"[InfoDrop] LLM pipeline processed: {text[:50]}")
+            return result
+        except Exception as e:
+            logger.warning(f"[InfoDrop] LLM pipeline failed, falling back: {e}")
+
+    # Fallback to keyword-based info drop
+    graph = load_graph()
     new_id = f"info-{uuid.uuid4().hex[:8]}"
 
-    # Classify as fact by default
     unit = {
         "id": new_id,
         "type": "fact",
@@ -35,7 +47,6 @@ async def info_drop(request: InfoRequest):
         "size": 30,
     }
 
-    # Find related nodes by keyword matching
     keywords = set(text.lower().split())
     related_nodes = []
     new_edges = []
@@ -55,7 +66,6 @@ async def info_drop(request: InfoRequest):
                 "interaction_type": "human-human",
             })
 
-    # Pick the most connected node as ripple target
     ripple_target = related_nodes[0]["id"] if related_nodes else ""
 
     return {

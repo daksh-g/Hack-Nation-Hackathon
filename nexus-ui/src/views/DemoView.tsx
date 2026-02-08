@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { streamPost } from '../lib/sse'
 
 // ─── DIVISIONS ───────────────────────────────────────────────
 const DIVISIONS: Record<string, { label: string; color: string; cx: number; cy: number }> = {
@@ -288,6 +289,9 @@ export function DemoView() {
   const [hoveredNode, setHoveredNode] = useState<string | null>(null)
   const [showOnboarding, setShowOnboarding] = useState(false)
   const [onboardingStep, setOnboardingStep] = useState(0)
+  const [liveBriefing, setLiveBriefing] = useState('')
+  const [isLiveBriefing, setIsLiveBriefing] = useState(false)
+  const liveBriefingRef = useRef('')
 
   // Initialize nodes
   useEffect(() => {
@@ -558,9 +562,36 @@ export function DemoView() {
     setTimeout(() => setShowRipple(false), 6000)
   }
 
+  const startLiveBriefing = useCallback(() => {
+    resetAll()
+    setShowBriefing(true)
+    setShowContradiction(true)
+    setShowSilo(true)
+    setIsLiveBriefing(true)
+    setLiveBriefing('')
+    liveBriefingRef.current = ''
+
+    streamPost('/api/briefing/generate', { person_id: 'person-19', stream: true }, {
+      onToken: (token) => {
+        liveBriefingRef.current += token
+        setLiveBriefing(liveBriefingRef.current)
+      },
+      onDone: () => setIsLiveBriefing(false),
+      onError: () => {
+        // Fall back to hardcoded briefing
+        setIsLiveBriefing(false)
+        setLiveBriefing('')
+      },
+    }).catch(() => {
+      setIsLiveBriefing(false)
+      setLiveBriefing('')
+    })
+  }, [])
+
   const resetAll = () => {
     setShowContradiction(false); setShowSilo(false); setShowBriefing(false)
     setSelectedNode(null); setShowRipple(false); setShowOnboarding(false)
+    setIsLiveBriefing(false); setLiveBriefing('')
   }
 
   return (
@@ -592,7 +623,7 @@ export function DemoView() {
           { icon: '●', color: '#ff6b6b', label: 'Show Contradiction', onClick: () => { resetAll(); setShowContradiction(true) } },
           { icon: '●', color: '#ffe66d', label: 'Show Silo', onClick: () => { resetAll(); setShowSilo(true) } },
           { icon: '◎', color: '#4ecdc4', label: 'Decision Ripple', onClick: triggerRipple },
-          { icon: '⚡', color: '#fff', label: 'What Changed Today?', onClick: () => { resetAll(); setShowBriefing(true); setShowContradiction(true); setShowSilo(true) } },
+          { icon: '⚡', color: '#fff', label: 'What Changed Today?', onClick: startLiveBriefing },
           { icon: '◉', color: '#4ecdc4', label: 'New Joiner', onClick: () => { resetAll(); setShowOnboarding(true); setOnboardingStep(0) } },
           { icon: '↺', color: '#fff', label: 'Reset', onClick: resetAll },
         ].map(btn => (
@@ -705,10 +736,17 @@ export function DemoView() {
             </div>
           </div>
           <div style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, maxHeight: 380, overflowY: 'auto' }}>
-            {BRIEFING_TEXT.slice(0, briefingProgress)}
-            {briefingProgress < BRIEFING_TEXT.length && <span style={{ display: 'inline-block', width: 2, height: 14, background: '#4ecdc4', marginLeft: 2, animation: 'nexus-blink 1s infinite', verticalAlign: 'middle' }} />}
+            {liveBriefing || BRIEFING_TEXT.slice(0, briefingProgress)}
+            {(isLiveBriefing || (!liveBriefing && briefingProgress < BRIEFING_TEXT.length)) && <span style={{ display: 'inline-block', width: 2, height: 14, background: '#4ecdc4', marginLeft: 2, animation: 'nexus-blink 1s infinite', verticalAlign: 'middle' }} />}
           </div>
-          {briefingProgress >= BRIEFING_TEXT.length && (
+          {liveBriefing && !isLiveBriefing && (
+            <div style={{ marginTop: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
+              <span style={{ fontSize: 9, padding: '2px 8px', borderRadius: 100, background: 'rgba(78,205,196,0.15)', color: '#4ecdc4', fontWeight: 600, letterSpacing: 1, textTransform: 'uppercase', fontFamily: '"JetBrains Mono", monospace' }}>
+                GPT-4o Live
+              </span>
+            </div>
+          )}
+          {((!liveBriefing && briefingProgress >= BRIEFING_TEXT.length) || (liveBriefing && !isLiveBriefing)) && (
             <div style={{ marginTop: 16, display: 'flex', gap: 8 }}>
               <button style={{ flex: 1, padding: '8px 12px', borderRadius: 8, border: '1px solid rgba(78,205,196,0.3)', background: 'rgba(78,205,196,0.1)', color: '#4ecdc4', fontSize: 11, fontWeight: 500, cursor: 'pointer' }}>
                 Resolve Contradiction →

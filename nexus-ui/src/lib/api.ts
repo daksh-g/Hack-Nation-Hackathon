@@ -2,11 +2,12 @@ import type { GraphData, Hierarchy, Alert, AskResponse, DecisionChain, InfoDropR
 
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 const TIMEOUT_MS = 3000;
+const LLM_TIMEOUT_MS = 30000;
 
-async function fetchWithFallback<T>(path: string, fallbackPath: string, options?: RequestInit): Promise<T> {
+async function fetchWithFallback<T>(path: string, fallbackPath: string, options?: RequestInit & { timeout?: number }): Promise<T> {
   try {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), TIMEOUT_MS);
+    const timeout = setTimeout(() => controller.abort(), options?.timeout ?? TIMEOUT_MS);
     const res = await fetch(`${BASE_URL}${path}`, {
       ...options,
       signal: controller.signal,
@@ -54,6 +55,7 @@ export async function askNexus(query: string): Promise<AskResponse> {
   return fetchWithFallback('/api/ask', '/mock_data/ask_cache.json', {
     method: 'POST',
     body: JSON.stringify({ query }),
+    timeout: LLM_TIMEOUT_MS,
   });
 }
 
@@ -61,6 +63,7 @@ export async function infoDrop(text: string): Promise<InfoDropResponse> {
   return fetchWithFallback('/api/info', '/mock_data/graph.json', {
     method: 'POST',
     body: JSON.stringify({ text }),
+    timeout: LLM_TIMEOUT_MS,
   });
 }
 
@@ -68,5 +71,60 @@ export async function submitFeedback(nodeId: string, useful: boolean, reason?: s
   return fetchWithFallback('/api/feedback', '/mock_data/graph.json', {
     method: 'POST',
     body: JSON.stringify({ node_id: nodeId, useful, reason }),
+  });
+}
+
+// ── New LLM-powered endpoints ──────────────────────────────────────────────
+
+export async function runImmuneScan(): Promise<unknown> {
+  return fetchWithFallback('/api/immune/scan', '/mock_data/alerts.json', {
+    method: 'POST',
+    timeout: LLM_TIMEOUT_MS,
+  });
+}
+
+export async function runSingleImmuneScan(agent: string): Promise<unknown> {
+  return fetchWithFallback(`/api/immune/scan/${agent}`, '/mock_data/alerts.json', {
+    method: 'POST',
+    timeout: LLM_TIMEOUT_MS,
+  });
+}
+
+export async function generateBriefing(personId: string): Promise<unknown> {
+  return fetchWithFallback('/api/briefing/generate', '/mock_data/graph.json', {
+    method: 'POST',
+    body: JSON.stringify({ person_id: personId }),
+    timeout: LLM_TIMEOUT_MS,
+  });
+}
+
+export async function generateOnboarding(teamName: string, division: string): Promise<unknown> {
+  return fetchWithFallback('/api/briefing/onboarding', '/mock_data/graph.json', {
+    method: 'POST',
+    body: JSON.stringify({ team_name: teamName, division }),
+    timeout: LLM_TIMEOUT_MS,
+  });
+}
+
+export async function ingestText(text: string, sourceType: string = 'human'): Promise<unknown> {
+  return fetchWithFallback('/api/ingest', '/mock_data/graph.json', {
+    method: 'POST',
+    body: JSON.stringify({ text, source_type: sourceType }),
+    timeout: LLM_TIMEOUT_MS,
+  });
+}
+
+export async function getLLMUsage(): Promise<unknown> {
+  return fetchWithFallback('/api/llm/usage', '/mock_data/graph.json');
+}
+
+export async function getWorkerStatus(): Promise<unknown> {
+  return fetchWithFallback('/api/workers/status', '/mock_data/graph.json');
+}
+
+export async function analyzeWorkers(): Promise<unknown> {
+  return fetchWithFallback('/api/workers/analyze', '/mock_data/graph.json', {
+    method: 'POST',
+    timeout: LLM_TIMEOUT_MS,
   });
 }

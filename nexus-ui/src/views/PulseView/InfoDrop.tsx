@@ -18,7 +18,20 @@ export function InfoDrop({ onRipple }: InfoDropProps) {
     try {
       const res = await infoDrop(text)
       onRipple?.(res.ripple_target)
-      setLastResult(`Classified as "${res.unit.type}" — ripple sent`)
+      // Show richer result when LLM provides extra fields
+      const extras: string[] = []
+      if ('contradiction_detected' in res && (res as Record<string, unknown>).contradiction_detected) {
+        extras.push('contradiction found!')
+      }
+      if ('notifications_sent' in res) {
+        const n = (res as Record<string, unknown>).notifications_sent as number
+        if (n > 0) extras.push(`routed to ${n} people`)
+      }
+      if ('confidence' in res) {
+        extras.push(`${Math.round(((res as Record<string, unknown>).confidence as number) * 100)}% confidence`)
+      }
+      const base = `Classified as "${res.unit.type}"`
+      setLastResult(extras.length > 0 ? `${base} — ${extras.join(' · ')}` : `${base} — ripple sent`)
       setText('')
     } catch (e) {
       console.error('Info Drop failed:', e)
