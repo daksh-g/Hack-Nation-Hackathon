@@ -1,7 +1,3 @@
-"""
-Superhuman AI Chief of Staff - Main Pipeline Implementation
-"""
-
 import asyncio
 import json
 from datetime import datetime, timedelta
@@ -11,9 +7,6 @@ import openai
 from neo4j import AsyncGraphDatabase
 import numpy as np
 
-# ============================================================================
-# DATA MODELS
-# ============================================================================
 
 @dataclass
 class Message:
@@ -54,9 +47,6 @@ class Stakeholder:
     reasons: List[str]
     defer_to: Optional[str] = None
 
-# ============================================================================
-# GRAPH DATABASE INTERFACE
-# ============================================================================
 
 class GraphDatabase:
     """Neo4j graph database interface."""
@@ -92,9 +82,6 @@ class GraphDatabase:
             except Exception as e:
                 print(f"Schema creation warning: {e}")
 
-# ============================================================================
-# AGENTS
-# ============================================================================
 
 class MemoryAgent:
     """Maintains organizational knowledge graph."""
@@ -454,10 +441,6 @@ Create a 2-3 sentence executive summary highlighting what's most important."""
         except Exception as e:
             return {'summary': f'Error generating summary: {e}'}
 
-# ============================================================================
-# MAIN PIPELINE
-# ============================================================================
-
 class InformationIngestionPipeline:
     """Main pipeline for ingesting and processing organizational communication."""
     
@@ -566,10 +549,6 @@ Only include what's explicitly mentioned. Be concise."""
                 urgency='medium'
             )
 
-
-# ============================================================================
-# EXAMPLE USAGE
-# ============================================================================
 
 async def main():
     """Example usage."""
