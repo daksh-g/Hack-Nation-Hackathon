@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+@theme {
+  --color-canvas: #0F1419;
+  --color-sidebar: #111827;
+  --color-panels: #1A2332;
+  --color-cards: #1F2937;
+  --color-text-primary: #F9FAFB;
+  --color-text-secondary: #D1D5DB;
+  --color-text-tertiary: #9CA3AF;
+  --color-accent-blue: #3B82F6;
+  --color-accent-green: #22C55E;
+  --color-accent-amber: #EAB308;
+  --color-accent-orange: #F97316;
+  --color-accent-red: #EF4444;
+  --color-agent-cyan: #06B6D4;
+  --color-agent-violet: #8B5CF6;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-canvas);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  overflow: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-canvas);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-text-tertiary);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-secondary);
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.3; transform: scale(0.97); }
+  50% { opacity: 0.5; transform: scale(1.03); }
+}
+
+@keyframes heartbeat {
+  0%, 100% { opacity: 0.98; }
+  50% { opacity: 1; }
+}
