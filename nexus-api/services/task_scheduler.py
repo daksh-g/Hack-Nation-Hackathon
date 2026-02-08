@@ -1,13 +1,15 @@
 """Module 4: Task Scheduling Engine — LLM-powered task graph generation."""
 
+import json
 import logging
 from .llm.client import get_llm_client
 from .llm.context_builder import ContextBuilder
 from .llm import prompts
+from .supabase_client import get_supabase, is_supabase_configured
 
 logger = logging.getLogger("nexus.task_scheduler")
 
-# In-memory task state
+# In-memory task state (fallback)
 _current_tasks: dict | None = None
 
 
@@ -37,6 +39,23 @@ async def generate_task_graph() -> dict:
     )
 
     _current_tasks = result
+
+    # Persist to Supabase
+    if is_supabase_configured():
+        try:
+            sb = get_supabase()
+            # Deactivate all previous task graphs
+            sb.table("task_graphs").update({"active": False}).eq("active", True).execute()
+            # Insert the new one as active
+            sb.table("task_graphs").insert({
+                "tasks": json.loads(json.dumps(result.get("tasks", []), default=str)),
+                "critical_path": json.loads(json.dumps(result.get("critical_path", []), default=str)),
+                "active": True,
+            }).execute()
+            logger.info("[TaskScheduler] Task graph persisted to Supabase")
+        except Exception as e:
+            logger.warning(f"[TaskScheduler] Failed to persist task graph to Supabase: {e}")
+
     tasks = result.get("tasks", [])
     logger.info(f"[TaskScheduler] Generated {len(tasks)} tasks, critical path: {result.get('critical_path', [])}")
     return result
@@ -44,34 +63,80 @@ async def generate_task_graph() -> dict:
 
 def get_current_tasks() -> dict | None:
     """Get the current task graph."""
+    if is_supabase_configured():
+        try:
+            sb = get_supabase()
+            result = (
+                sb.table("task_graphs")
+                .select("*")
+                .eq("active", True)
+                .order("created_at", desc=True)
+                .limit(1)
+                .execute()
+            )
+            if result.data:
+                row = result.data[0]
+                return {
+                    "tasks": row.get("tasks", []),
+                    "critical_path": row.get("critical_path", []),
+                }
+        except Exception as e:
+            logger.warning(f"[TaskScheduler] Failed to read tasks from Supabase: {e}")
+
     return _current_tasks
 
 
 def get_tasks_for_person(person_id: str) -> list[dict]:
     """Get tasks assigned to a specific person or agent."""
-    if not _current_tasks:
+    current = get_current_tasks()
+    if not current:
         return []
-    return [t for t in _current_tasks.get("tasks", []) if t.get("assigned_to") == person_id]
+    return [t for t in current.get("tasks", []) if t.get("assigned_to") == person_id]
 
 
 def complete_task(task_id: str) -> bool:
     """Mark a task as complete."""
-    if not _current_tasks:
+    global _current_tasks
+
+    current = get_current_tasks()
+    if not current:
         return False
-    for task in _current_tasks.get("tasks", []):
+
+    found = False
+    for task in current.get("tasks", []):
         if task.get("id") == task_id:
             task["status"] = "completed"
             # Unblock dependent tasks
-            for other in _current_tasks.get("tasks", []):
+            for other in current.get("tasks", []):
                 if task_id in other.get("blocked_by", []):
                     other["blocked_by"].remove(task_id)
-            logger.info(f"[TaskScheduler] Task {task_id} completed")
-            return True
-    return False
+            found = True
+            break
+
+    if not found:
+        return False
+
+    # Update in-memory
+    _current_tasks = current
+
+    # Persist updated tasks to Supabase
+    if is_supabase_configured():
+        try:
+            sb = get_supabase()
+            sb.table("task_graphs").update({
+                "tasks": json.loads(json.dumps(current.get("tasks", []), default=str)),
+            }).eq("active", True).execute()
+            logger.info(f"[TaskScheduler] Task {task_id} completed, updated in Supabase")
+        except Exception as e:
+            logger.warning(f"[TaskScheduler] Failed to update task in Supabase: {e}")
+
+    logger.info(f"[TaskScheduler] Task {task_id} completed")
+    return True
 
 
 def get_critical_path() -> list[str]:
     """Get the critical path task IDs."""
-    if not _current_tasks:
+    current = get_current_tasks()
+    if not current:
         return []
-    return _current_tasks.get("critical_path", [])
+    return current.get("critical_path", [])

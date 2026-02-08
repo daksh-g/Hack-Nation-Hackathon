@@ -8,6 +8,7 @@ import { InfoDrop } from './InfoDrop'
 import { usePulseAnimation } from './hooks/usePulseAnimation'
 import { useParticles } from './hooks/useParticles'
 import { useRipple } from './hooks/useRipple'
+import { useRealtimeGraph } from '../../hooks/useRealtimeGraph'
 
 // ── Color maps ──────────────────────────────────────────────────────────────
 
@@ -111,7 +112,7 @@ export function PulseView() {
 
   // ── Load data ───────────────────────────────────────────────────────────
 
-  useEffect(() => {
+  const loadGraphData = useCallback(() => {
     getGraph()
       .then(data => {
         setGraphData(data)
@@ -125,6 +126,19 @@ export function PulseView() {
       })
       .catch(console.error)
   }, [])
+
+  useEffect(() => {
+    loadGraphData()
+  }, [loadGraphData])
+
+  // ── Realtime subscription ─────────────────────────────────────────────
+
+  useRealtimeGraph({
+    onGraphChange: useCallback(() => {
+      // Re-fetch the full graph when any node/edge/alert changes
+      loadGraphData()
+    }, [loadGraphData]),
+  })
 
   // ── Resize observer ─────────────────────────────────────────────────────
 

@@ -1,17 +1,19 @@
 """Module 6: LLM-powered immune system agents."""
 
 import asyncio
+import json
 import logging
 from datetime import datetime
 from .llm.client import get_llm_client
 from .llm.context_builder import ContextBuilder
 from .llm import prompts
+from .supabase_client import get_supabase, is_supabase_configured
 
 logger = logging.getLogger("nexus.immune")
 
 AGENT_NAMES = ["contradiction", "staleness", "silo", "overload", "coordination", "drift"]
 
-# In-memory scan history
+# In-memory scan history (fallback)
 _scan_history: list[dict] = []
 
 
@@ -99,6 +101,22 @@ async def run_full_scan() -> dict:
         "by_agent": agent_results,
     }
 
+    # Persist to Supabase
+    if is_supabase_configured():
+        try:
+            sb = get_supabase()
+            sb.table("immune_scans").insert({
+                "agents_run": scan_result["agents_run"],
+                "total_findings": scan_result["total_findings"],
+                "alerts_generated": scan_result["alerts_generated"],
+                "alerts": json.loads(json.dumps(scan_result["alerts"], default=str)),
+                "by_agent": json.loads(json.dumps(scan_result["by_agent"], default=str)),
+            }).execute()
+            logger.info("[Immune] Scan result persisted to Supabase")
+        except Exception as e:
+            logger.warning(f"[Immune] Failed to persist scan to Supabase, using in-memory fallback: {e}")
+
+    # Always keep in-memory copy as fallback
     _scan_history.append(scan_result)
     logger.info(f"[Immune] Full scan complete: {len(alerts)} alerts from {len(all_findings)} findings")
     return scan_result
@@ -123,4 +141,13 @@ def _infer_scope(finding: dict) -> str:
 
 def get_scan_history() -> list[dict]:
     """Get all past scan results."""
+    if is_supabase_configured():
+        try:
+            sb = get_supabase()
+            result = sb.table("immune_scans").select("*").order("created_at", desc=True).execute()
+            if result.data:
+                return result.data
+        except Exception as e:
+            logger.warning(f"[Immune] Failed to read scan history from Supabase, using in-memory fallback: {e}")
+
     return _scan_history

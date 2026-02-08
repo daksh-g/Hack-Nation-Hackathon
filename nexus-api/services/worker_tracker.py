@@ -1,9 +1,11 @@
 """Module 5: Worker Tracker & Conflict Detection."""
 
+import json
 import logging
 from .llm.client import get_llm_client
 from .llm.context_builder import ContextBuilder
 from .llm import prompts
+from .supabase_client import get_supabase, is_supabase_configured
 
 logger = logging.getLogger("nexus.worker_tracker")
 
@@ -34,6 +36,18 @@ async def analyze_workers() -> dict:
     )
 
     _latest_analysis = result
+
+    # Persist to Supabase
+    if is_supabase_configured():
+        try:
+            sb = get_supabase()
+            sb.table("worker_analyses").insert({
+                "result": json.loads(json.dumps(result, default=str)),
+            }).execute()
+            logger.info("[WorkerTracker] Analysis persisted to Supabase")
+        except Exception as e:
+            logger.warning(f"[WorkerTracker] Failed to persist analysis to Supabase: {e}")
+
     logger.info(
         f"[WorkerTracker] Found: "
         f"{len(result.get('conflicts', []))} conflicts, "
@@ -69,6 +83,21 @@ async def analyze_team(team_id: str) -> dict:
 
 def get_worker_status() -> dict:
     """Get the latest worker analysis."""
+    if is_supabase_configured():
+        try:
+            sb = get_supabase()
+            result = (
+                sb.table("worker_analyses")
+                .select("*")
+                .order("created_at", desc=True)
+                .limit(1)
+                .execute()
+            )
+            if result.data:
+                return result.data[0].get("result", {})
+        except Exception as e:
+            logger.warning(f"[WorkerTracker] Failed to read analysis from Supabase: {e}")
+
     return _latest_analysis or {
         "conflicts": [],
         "duplicates": [],

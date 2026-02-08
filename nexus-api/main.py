@@ -14,7 +14,21 @@ DEMO_MODE = os.getenv("NEXUS_DEMO_MODE", "true").lower() == "true"
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Startup: build embedding index if API key is available."""
+    """Startup: verify Supabase connection and build embedding index."""
+    # Verify Supabase connection
+    from services.supabase_client import is_supabase_configured
+    if is_supabase_configured():
+        try:
+            from services.supabase_client import get_supabase
+            sb = get_supabase()
+            result = sb.table("nodes").select("id", count="exact").limit(1).execute()
+            logging.info(f"Supabase connected — {result.count} nodes in database")
+        except Exception as e:
+            logging.warning(f"Supabase connection check failed (will use fallback): {e}")
+    else:
+        logging.info("Supabase not configured — using in-memory/JSON fallback")
+
+    # Build embedding index
     if os.getenv("OPENAI_API_KEY"):
         try:
             from services.llm.embeddings import get_embedding_service
@@ -26,7 +40,7 @@ async def lifespan(app: FastAPI):
     yield
 
 
-app = FastAPI(title="NEXUS API", version="2.0.0", lifespan=lifespan)
+app = FastAPI(title="NEXUS API", version="3.0.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -60,13 +74,17 @@ app.include_router(routing.router)
 @app.get("/")
 async def root():
     llm_status = "configured" if os.getenv("OPENAI_API_KEY") else "not configured"
+    from services.supabase_client import is_supabase_configured
+    db_status = "connected" if is_supabase_configured() else "not configured"
     return {
         "name": "NEXUS API",
-        "version": "2.0.0",
+        "version": "3.0.0",
         "demo_mode": DEMO_MODE,
         "llm_status": llm_status,
+        "db_status": db_status,
         "llm_model_heavy": os.getenv("NEXUS_MODEL_HEAVY", "gpt-4o"),
         "llm_model_fast": os.getenv("NEXUS_MODEL_FAST", "gpt-4o-mini"),
+        "storage_backend": "supabase" if is_supabase_configured() else "memory",
     }
 
 

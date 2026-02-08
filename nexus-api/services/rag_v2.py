@@ -6,11 +6,71 @@ from .llm.context_builder import ContextBuilder
 from .llm.embeddings import get_embedding_service
 from .llm import prompts
 from .graph_store import load_graph
+from .supabase_client import get_supabase, is_supabase_configured
 
 logger = logging.getLogger("nexus.rag")
 
-# Conversation memory store
+# Conversation memory store (fallback)
 _conversations: dict[str, list[dict]] = {}
+
+
+def _load_conversation_history(conversation_id: str) -> list[dict]:
+    """Load conversation history from Supabase, falling back to in-memory."""
+    if is_supabase_configured():
+        try:
+            sb = get_supabase()
+            result = (
+                sb.table("conversation_messages")
+                .select("role, content")
+                .eq("conversation_id", conversation_id)
+                .order("created_at", desc=False)
+                .limit(10)
+                .execute()
+            )
+            if result.data:
+                return result.data
+        except Exception as e:
+            logger.warning(f"[RAG] Failed to load conversation from Supabase: {e}")
+
+    # In-memory fallback
+    if conversation_id in _conversations:
+        return _conversations[conversation_id][-10:]
+    return []
+
+
+def _save_conversation_messages(conversation_id: str, user_query: str, assistant_answer: str):
+    """Persist conversation messages to Supabase and in-memory."""
+    # Always keep in-memory copy
+    if conversation_id not in _conversations:
+        _conversations[conversation_id] = []
+    _conversations[conversation_id].append({"role": "user", "content": user_query})
+    _conversations[conversation_id].append({"role": "assistant", "content": assistant_answer})
+
+    if is_supabase_configured():
+        try:
+            sb = get_supabase()
+            # Upsert conversation record
+            sb.table("conversations").upsert({
+                "id": conversation_id,
+                "updated_at": "now()",
+            }).execute()
+
+            # Insert the two messages
+            sb.table("conversation_messages").insert([
+                {
+                    "conversation_id": conversation_id,
+                    "role": "user",
+                    "content": user_query,
+                },
+                {
+                    "conversation_id": conversation_id,
+                    "role": "assistant",
+                    "content": assistant_answer,
+                },
+            ]).execute()
+            logger.info(f"[RAG] Conversation {conversation_id} persisted to Supabase")
+        except Exception as e:
+            logger.warning(f"[RAG] Failed to persist conversation to Supabase: {e}")
 
 
 async def query_rag(
@@ -18,7 +78,7 @@ async def query_rag(
     conversation_id: str | None = None,
     structured: bool = True,
 ) -> dict:
-    """Full RAG pipeline: embed query → search → expand context → generate answer."""
+    """Full RAG pipeline: embed query -> search -> expand context -> generate answer."""
     client = get_llm_client()
     ctx = ContextBuilder()
     emb_service = get_embedding_service()
@@ -86,8 +146,8 @@ async def query_rag(
 
     # Step 4: Build conversation history
     messages = []
-    if conversation_id and conversation_id in _conversations:
-        messages = _conversations[conversation_id][-10:]  # Last 5 turns
+    if conversation_id:
+        messages = _load_conversation_history(conversation_id)
 
     # Step 5: Generate answer
     if structured:
@@ -117,13 +177,7 @@ async def query_rag(
 
     # Store conversation
     if conversation_id:
-        if conversation_id not in _conversations:
-            _conversations[conversation_id] = []
-        _conversations[conversation_id].append({"role": "user", "content": query})
-        _conversations[conversation_id].append({
-            "role": "assistant",
-            "content": result.get("answer", ""),
-        })
+        _save_conversation_messages(conversation_id, query, result.get("answer", ""))
 
     logger.info(f"[RAG] Generated answer with {len(result.get('citations', []))} citations")
     return result
